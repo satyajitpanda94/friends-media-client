@@ -3,6 +3,7 @@ import './Registration.scss'
 import axios from 'axios'
 
 export default function Registration() {
+  const apiBaseURL= process.env.REACT_APP_API_BASE_URL
   const username = useRef()
   const email = useRef()
   const password = useRef()
@@ -22,7 +23,7 @@ export default function Registration() {
         password: password.current.value,
       }
       try {
-        await axios.post('http://localhost:8888/auth/register', user);
+        await axios.post(`${apiBaseURL}/auth/register`, user);
         console.log('Registered successfully')
       } catch (err) {
         setError(err.response.data)
