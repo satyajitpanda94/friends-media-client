@@ -1,0 +1,154 @@
+@import "../../App.scss";
+
+
+.registration {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5;
+
+    .registrationWrapper {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 90%;
+
+        @include medium {
+            gap: 1vh;
+            width: 95%;
+        }
+
+        .registrationLeft,
+        .registrationRight {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .registrationLeft {
+            .registrationLogo {
+                font-size: 3rem;
+                font-weight: 900;
+                color: #1775ee;
+                margin-bottom: 10px;
+
+                @include medium {
+                    font-size: 6.3vw;
+                    margin-bottom: 1vh;
+                }
+
+                .logoFirstHalf {
+                    font-weight: 400;
+                }
+            }
+
+            .registrationDesc {
+                font-size: 1.25rem;
+
+                @include medium {
+                    font-size: 2.6vw;
+                }
+            }
+        }
+
+        .registrationRight {
+            align-items: center;
+            width: 400px;
+
+            @include medium {
+                width: 51vw;
+            }
+
+            .registrationBox {
+                width: 100%;
+                padding: 20px;
+                background-color: white;
+                border-radius: 5px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 10px;
+                -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+                -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+
+                @include medium {
+                    gap: 1vw;
+                    padding: 2.5vw;
+                }
+
+                .registrationInput {
+                    height: 50px;
+                    border-radius: 2px;
+                    border: 1px solid rgb(228, 228, 228);
+                    font-size: 18px;
+                    padding-left: 20px;
+
+                    @include medium {
+                        height: 6.5vw;
+                        font-size: 2.3vw;
+                    }
+                }
+
+                .registrationInput:focus {
+                    outline-color: #4c99fe;
+                }
+
+                .error {
+                    padding: 10px;
+                    background-color: lemonchiffon;
+                    border-left: 4px solid red;
+
+                    @include medium {
+                        font-size: 2.1vw;
+                        padding: 1.25vw;
+                        border-left-width: 0.6vw;
+                    }
+                }
+
+                .button {
+                    height: 50px;
+                    border-radius: 2px;
+                    border: none;
+                    background-color: #1775ee;
+                    color: white;
+                    font-size: 20px;
+                    font-weight: 500;
+                    cursor: pointer;
+
+                    @include medium {
+                        height: 6.5vw;
+                        font-size: 2.6vw;
+                    }
+                }
+
+                .button:hover {
+                    background-color: #4c99fe;
+                }
+
+                hr {
+                    margin-block: 5px;
+
+                    @include medium {
+                        margin-block: 1vw;
+
+                    }
+                }
+
+                .loginButton {
+                    background-color: #43d026;
+                    font-weight: 400;
+                    width: 100%;
+                }
+
+                .loginButton:hover{
+                    background-color: #21be02;
+                }
+            }
+        }
+    }
+}
