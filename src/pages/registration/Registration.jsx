@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import './Registration.scss'
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Registration() {
   const apiBaseURL= process.env.REACT_APP_API_BASE_URL
@@ -9,6 +10,7 @@ export default function Registration() {
   const password = useRef()
   const confirmPassword = useRef()
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +26,9 @@ export default function Registration() {
       }
       try {
         await axios.post(`${apiBaseURL}/auth/register`, user);
-        console.log('Registered successfully')
+        setError(null)
+        alert('User Signup Successful.')
+        navigate('/login')
       } catch (err) {
         setError(err.response.data)
       }
@@ -36,7 +40,7 @@ export default function Registration() {
       <div className="registrationWrapper">
         <div className="registrationLeft">
           <h3 className="registrationLogo"><span className='logoFirstHalf'>Friends</span>Media</h3>
-          <span className="registrationDesc">Connect with friend and world arround you.</span>
+          <span className="registrationDesc">Connect with friends and world arround you.</span>
         </div>
         <div className="registrationRight">
           <form className="registrationBox" onSubmit={handleSubmit}>
@@ -76,7 +80,9 @@ export default function Registration() {
             }
             <button className="button" type="submit">Sign Up</button>
             <hr />
-            <button className="loginButton button">Log into Account</button>
+            <Link to='/login'>
+              <button className="loginButton button">Log into Account</button>
+            </Link>
           </form>
         </div>
       </div>
