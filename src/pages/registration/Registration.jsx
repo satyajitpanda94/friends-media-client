@@ -20,7 +20,7 @@ export default function Registration() {
       await confirmPassword.current.reportValidity()
     } else {
       const user = {
-        username: username.current.value,
+        name: username.current.value,
         email: email.current.value,
         password: password.current.value,
       }

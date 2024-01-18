@@ -1,0 +1,59 @@
+.rightbar-container {
+    .people-you-may-know-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .title {
+            font-size: 18px;
+            font-weight: 500;
+            color: gray;
+        }
+    }
+
+    .friend-request-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .title {
+            font-size: 18px;
+            font-weight: 500;
+            color: gray;
+        }
+    }
+
+    hr {
+        margin-block: 20px;
+    }
+
+    .contacts-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .title {
+            font-size: 18px;
+            font-weight: 500;
+            color: gray;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 1px solid rgb(230, 230, 230);
+            }
+
+            .name {
+                font-weight: 500;
+            }
+        }
+    }
+}

@@ -1,14 +1,14 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Login.scss'
-import axios from 'axios'
+import { AuthContext } from '../../context/authContext'
 
 export default function Login() {
-    const apiBaseURL = process.env.REACT_APP_API_BASE_URL
     const email = useRef()
     const password = useRef()
     const [error, setError] = useState(null)
-    const navigate= useNavigate()
+    const navigate = useNavigate()
+    const { login } = useContext(AuthContext)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,7 +17,7 @@ export default function Login() {
             password: password.current.value
         }
         try {
-            await axios.post(`${apiBaseURL}/auth/login`, user);
+            await login(user);
             setError(null)
             alert('Login Successful.')
             navigate('/')

@@ -1,0 +1,45 @@
+.may-be-friend-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+
+    .left-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgb(230, 230, 230);
+        }
+        .name {
+            font-weight: 500;
+        }
+    }
+
+    .right-container {
+        .button-container {
+            .add-friend, .cancle {
+                padding: 5px 10px;
+                background-color: blueviolet;
+                color: white;
+                border-radius: 2px;
+                font-weight: 500;
+                white-space: nowrap;
+                cursor: pointer;
+
+                &:focus, &:hover{
+                    background-color: blue;
+                }
+            }
+
+            .cancle {
+                background-color: grey;
+            }
+
+        }
+    }
+}

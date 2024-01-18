@@ -1,0 +1,46 @@
+.photo-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+
+    .left-photo-container {
+        width: 75%;
+        height: 100%;
+        background-color: black;
+        position: relative;
+
+        .cancle-photo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            padding: 5px;
+            color: white;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            cursor: pointer;
+        }
+
+        .image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+
+            img {
+                height: 100%;
+                width: auto;
+                object-fit: contain;
+                overflow: hidden;
+            }
+        }
+    }
+
+    .right-photo-container {
+        width: 25%;
+    }
+}
