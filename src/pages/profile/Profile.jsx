@@ -1,176 +1,104 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Profile.scss'
-import { MdEdit } from "react-icons/md";
 import Navbar from '../../components/navbar/Navbar';
-import { FaBriefcase } from "react-icons/fa6";
-import { FaGraduationCap } from "react-icons/fa6";
-import { IoHome } from "react-icons/io5";
-import { MdPlace } from "react-icons/md";
 import SharePost from '../../components/sharePost/SharePost';
 import Posts from '../../components/posts/Posts';
 import EditProfile from '../../components/editProfile/EditProfile';
 import { AuthContext } from '../../context/authContext';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import Friend from '../../components/friend/Friend';
+import ProfileTopbar from '../../components/profileTopbar/ProfileTopbar';
+import Intro from '../../components/intro/Intro';
+import Friends from '../../components/friends/Friends';
+import MessengerModel from '../../components/messengerModal/MessengerModal';
+import PhotoGallery from '../../components/photoGallery/PhotoGallery';
 
 export default function Profile() {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
 
-    const { user: currentUser } = useContext(AuthContext)
-
+    const { user } = useContext(AuthContext)
     const [openEditProfile, setOpenEditProfile] = useState(false)
     const { id: paramId } = useParams()
+    const [openMessengerModal, setOpenMessengerModal] = useState(false)
 
-    const { data: user } = useQuery({
-        queryKey: ["user", paramId],
+    const { data: profileUser } = useQuery({
+        queryKey: ["profileUser", paramId],
         queryFn: async () => {
             const res = await axios.get(`${apiBaseURL}/user/${paramId}`)
             return res.data
         }
     })
 
-    const { data: posts } = useQuery({
-        queryKey: ["allposts", paramId],
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
         queryFn: async () => {
-            const res = await axios.get(apiBaseURL + "/post/profile/" + paramId)
+            const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
             return res.data
         }
     })
 
-    return (<>
-        <div className="navbar-wrapper">
-            <Navbar />
-        </div>
-        <div className={
-            openEditProfile ? 'profile-container active-edit-profile' : 'profile-container'
-        }>
-            <div className="profile-top">
-                <div className="cover-pic">
-                    <img
-                        src={user?.coverPic ? user.coverPic : "/coverpic.jpg"}
-                        alt=""
-                    />
-                </div>
-            </div>
-            <div className="profile-middle">
-                <div className="profile-pic-container">
-                    <div className="profile-pic">
-                        <img
-                            src={user?.profilePic ? user.profilePic : "/avatar.png"}
-                            alt=""
-                        />
-                    </div>
-                    <div className="user-info">
-                        <div className="name">{user?.name}</div>
-                        <div>105 friends</div>
-                    </div>
-                </div>
-                {
-                    currentUser._id === paramId &&
-                    (< div
-                        className="edit-profile-button"
-                        onClick={e => setOpenEditProfile(!openEditProfile)}
-                    >
-                        <MdEdit className='edit-icon' />
-                        Edit Profile
-                    </div>)
-                }
-            </div>
+    const [friendRequestsSent, setFriendRequestSent] = useState(currentUser?.friendRequestsSent.includes(paramId))
+
+    const { data: postsByPage, fetchNextPage } = useInfiniteQuery({
+        queryKey: ["postsByPage", paramId],
+        queryFn: async ({ pageParam }) => {
+            const res = await axios.get(`${apiBaseURL}/post/profile/${paramId}?page=${pageParam}`)
+            return res.data
+        },
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, allPages) => {
+            return lastPage.length ? allPages.length + 1 : undefined
+        }
+    })
+
+
+    const handleInfiniteScroll = async () => {
+        if (
+            window.innerHeight + document.documentElement.scrollTop + 1 >=
+            document.documentElement.scrollHeight
+        ) {
+            fetchNextPage()
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleInfiniteScroll)
+        return () => window.removeEventListener("scroll", handleInfiniteScroll)
+    }, [])
+
+    return (
+        <div
+            className={openMessengerModal ? "profile-container active-messanger" : "profile-container"}
+            disabled={openEditProfile}
+        >
+
+            <ProfileTopbar
+                openEditProfile={openEditProfile}
+                setOpenEditProfile={setOpenEditProfile}
+                openMessengerModal={openMessengerModal}
+                setOpenMessengerModal={setOpenMessengerModal}
+            />
+
             <div className="profile-buttom" >
                 <div className="profile-buttom-left">
-                    <div className="intro">
-                        <h2 className='title'>
-                            Intro
-                        </h2>
-                        {
-                            user?.worksAt &&
-                            <div className='intro-item'>
-                                <FaBriefcase className='intro-item-icon' />
-                                <span>{user?.worksAt}</span>
-                            </div>
-                        }
-                        {
-                            user?.school &&
-                            <div className='intro-item'>
-                                <FaGraduationCap className='intro-item-icon' />
-                                <span>{user?.school}</span>
-                            </div>
-                        }
-                        {
-                            user?.college &&
-                            <div className='intro-item'>
-                                <FaGraduationCap className='intro-item-icon' />
-                                <span>{user?.college}</span>
-                            </div>
-                        }
-                        {
-                            user?.currentAddress &&
-                            <div className='intro-item'>
-                                <IoHome className='intro-item-icon' />
-                                <span>{user?.currentAddress}</span>
-                            </div>
-                        }
-                        {
-                            user?.permanentAddress &&
-                            <div className='intro-item'>
-                                <MdPlace className='intro-item-icon' />
-                                <span>{user?.permanentAddress}</span>
-                            </div>
-                        }
-                    </div>
-                    <div className="photos">
-                        <h2 className='title'>
-                            <span className="title-left">
-                                Photos
-                            </span>
-                            <span className="title-right">
-                                See all Photos
-                            </span>
-                        </h2>
-                        <div className="photo-gallery">
-                            {
-                                posts && posts.map(
-                                    (post, indx) => {
-                                        return post.img &&
-                                        (<Link to={`/photo/${post._id}`}>
-                                            <img src={post?.img} alt="" key={indx} />
-                                        </Link>)
-                                    }
-                                )
-                            }
-                        </div>
-                    </div>
-                    <div className="friends">
-                        <h2 className='title'>
-                            <span className="title-left">
-                                Friends
-                            </span>
-                            <span className="title-right">
-                                See all friends
-                            </span>
-                        </h2>
-                        <div className="friends-container">
-                            {
-                                user?.friends.map(
-                                    (friendId, indx) => (
-                                        indx < 9 &&
-                                        <Friend friendId={friendId} key={indx} />
-                                    )
-                                )
-                            }
-                        </div>
-                    </div>
+                    <Intro profileUser={profileUser} />
+                    <PhotoGallery profileUserId={paramId} />
+                    <Friends profileUser={profileUser} />
                 </div>
                 <div className="profile-buttom-right">
                     {
-                        currentUser._id === paramId &&
+                        currentUser?._id === paramId &&
                         <SharePost />
                     }
-                    <Posts posts={posts} />
+                    {
+                        postsByPage?.pages.map(
+                            (posts, idx) => <Posts posts={posts} key={idx} />
+                        )
+                    }
                 </div>
             </div>
+
             {
                 openEditProfile &&
                 <div className="edit-profile-modal">
@@ -186,7 +114,16 @@ export default function Profile() {
                     </div>
                 </div>
             }
+            {
+                openMessengerModal &&
+                <div className="messenger-modal-wrapper">
+                    <MessengerModel
+                        recieverUser={profileUser}
+                        currentUser={currentUser}
+                        setOpenMessengerModal={setOpenMessengerModal}
+                    />
+                </div>
+            }
         </div >
-    </>
     )
 }

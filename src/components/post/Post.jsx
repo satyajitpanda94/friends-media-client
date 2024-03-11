@@ -14,7 +14,7 @@ export default function Post({ post }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
     const { user } = useContext(AuthContext)
     const [commentsOpen, setCommentsOpen] = useState(false)
-    const [totalLikes, setTotalLikes] = useState(post.likes.length)
+    const [totalLikes, setTotalLikes] = useState(0)
     const [isLiked, setIsLiked] = useState(false)
     const [postBy, setPostBy] = useState(null)
     const [moreOpen, setMoreOpen] = useState(false)
@@ -39,7 +39,8 @@ export default function Post({ post }) {
     }
 
     useEffect(() => {
-        setIsLiked(post.likes.includes(user._id))
+        setIsLiked(post?.likes.includes(user?._id))
+        setTotalLikes(post?.likes.length)
     }, [post, user])
 
     useEffect(() => {
@@ -93,7 +94,9 @@ export default function Post({ post }) {
                 }
                 {
                     post.img &&
-                    <img src={post.img} alt="" />
+                    (<Link to={`/photo/${post._id}`}>
+                        <img src={post.img} alt="" />
+                    </Link>)
                 }
             </div>
             <div className="post-buttom">

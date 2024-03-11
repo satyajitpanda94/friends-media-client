@@ -27,7 +27,6 @@ export default function Registration() {
       try {
         await axios.post(`${apiBaseURL}/auth/register`, user);
         setError(null)
-        alert('User Signup Successful.')
         navigate('/login')
       } catch (err) {
         setError(err.response.data)

@@ -1,37 +1,84 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './Navbar.scss'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/authContext'
-import { IoPersonSharp } from 'react-icons/io5'
+import { IoPersonSharp, IoSearch } from 'react-icons/io5'
+import { MdHome } from "react-icons/md";
+import { GiHamburgerMenu } from "react-icons/gi";
+import SearchBar from '../searchBar/SearchBar'
+import { RxCross2 } from 'react-icons/rx'
+import Leftbar from '../leftbar/Leftbar'
+import { BsPersonCircle } from 'react-icons/bs'
+import { FaFacebookMessenger, FaUserFriends } from 'react-icons/fa'
+import { GrGallery } from 'react-icons/gr'
+import { RiLogoutBoxRLine } from 'react-icons/ri'
 
 export default function Navbar() {
-    const { user } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext)
+    const [enableHamburger, setEnableHamburger] = useState(true)
+    const [enableSearchInput, setEnableSearchInput] = useState(false)
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        if (window.confirm('Do you want to Logout ?')) {
+            await logout();
+            navigate('/login')
+        }
+    }
 
     return (
-        <div className='navbarContainer'>
-            <div className="navbarLeft">
+        <div className='navbar-container'>
+            <div className="navbar-left">
                 <Link to={'/'}>
                     <span className="logo">
-                        <span className='logoFirstHalf'>Friends</span>Media
+                        <span className='logo-first-half'>Friends</span>Media
                     </span>
                 </Link>
+
+                <span className='searchbar-wrapper'>
+                    <SearchBar />
+                </span>
+                <IoSearch className='searchbar-icon' onClick={() => setEnableSearchInput(!enableSearchInput)} />
             </div>
-            <div className="navbarRight">
-                <Link to={`/`}>
-                    <span>Homepage</span>
-                </Link>
-                <span>Timeline</span>
-                <Link to={`/profile/${user._id}`}>
+            <div className="navbar-right">
+                <div className="hamburger" onClick={() => setEnableHamburger(!enableHamburger)}>
                     {
-                        user.profilePic ?
+                        enableHamburger
+                            ? <GiHamburgerMenu className='navbar-icon' />
+                            : <RxCross2 className='navbar-icon' />
+                    }
+                </div>
+                <Link to={`/`} className='home'>
+                    <MdHome className='navbar-icon' />
+                </Link>
+                <Link to={`/profile/${user?._id}`} className='profile-pic'>
+                    {
+                        user?.profilePic ?
                             <img
-                                src={user.profilePic}
+                                src={user?.profilePic}
                                 alt=""
                             /> :
                             <IoPersonSharp className='avatar' />
                     }
                 </Link>
             </div>
+
+            {
+                !enableHamburger &&
+                <div className="leftbar-modal">
+                    <Leftbar />
+                </div>
+            }
+
+            {
+                enableSearchInput &&
+                <div
+                    className="searchbar-modal"
+                >
+                    <SearchBar />
+                    <RxCross2 className='cancle-icon' onClick={() => setEnableSearchInput(!enableSearchInput)} />
+                </div>
+            }
         </div>
     )
 }

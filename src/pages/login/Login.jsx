@@ -19,7 +19,6 @@ export default function Login() {
         try {
             await login(user);
             setError(null)
-            alert('Login Successful.')
             navigate('/')
         } catch (err) {
             setError(err.response.data)

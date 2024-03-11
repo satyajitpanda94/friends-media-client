@@ -21,7 +21,7 @@
             background-color: #f0f2f5;
             border-radius: 20px;
             padding-inline: 15px;
-            width: 100%;
+            width: calc(100% - 35px);
             gap: 5px;
 
             input {

@@ -1,26 +1,29 @@
 .may-be-friend-container {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
     justify-content: space-between;
 
     .left-container {
         display: flex;
         align-items: center;
-        gap: 10px;
+        flex-basis: 75%;
+        gap: 5px;
         img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            aspect-ratio: 1/1;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid rgb(230, 230, 230);
         }
         .name {
             font-weight: 500;
+            overflow-wrap: anywhere;
         }
     }
 
     .right-container {
+        flex-basis: 25%;
         .button-container {
             .add-friend, .cancle {
                 padding: 5px 10px;

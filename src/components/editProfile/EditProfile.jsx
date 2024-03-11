@@ -13,8 +13,8 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
 
     const { user } = useContext(AuthContext)
 
-    const { data: updatedUser } = useQuery({
-        queryKey: ["user",user._id],
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
         queryFn: async () => {
             const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
             return res.data
@@ -24,14 +24,14 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
     const [userInputs, setUserInputs] = useState({
         profilePic: null,
         coverPic: null,
-        name: '',
-        school: '',
-        college: '',
-        worksAt: '',
-        currentAddress: '',
-        permanentAddress: '',
-        gender: null,
-        dateOfBirth: '',
+        name: currentUser.name,
+        school: currentUser.school,
+        college: currentUser.college,
+        worksAt: currentUser.worksAt,
+        currentAddress: currentUser.currentAddress,
+        permanentAddress: currentUser.permanentAddress,
+        gender: currentUser.gender,
+        dateOfBirth: currentUser.dateOfBirth,
     })
 
     const profilePicProgress = useRef()
@@ -45,6 +45,7 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['user'] })
+            queryClient.invalidateQueries({ queryKey: ['profileUser'] })
         }
     })
 
@@ -87,16 +88,16 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                 userId: user._id,
                 img: userInputs.profilePic,
             })
-             queryClient.invalidateQueries({ queryKey: ['allposts'] })
-             queryClient.invalidateQueries({ queryKey: ['user'] })
+            queryClient.invalidateQueries({ queryKey: ['allposts'] })
+            queryClient.invalidateQueries({ queryKey: ['user'] })
         }
         if (userInputs.coverPic) {
             await axios.post(`${apiBaseURL}/post`, {
                 userId: user._id,
                 img: userInputs.coverPic,
             })
-             queryClient.invalidateQueries({ queryKey: ['allposts'] })
-             queryClient.invalidateQueries({ queryKey: ['user'] })
+            queryClient.invalidateQueries({ queryKey: ['allposts'] })
+            queryClient.invalidateQueries({ queryKey: ['user'] })
         }
 
         setOpenEditProfile(!openEditProfile)
@@ -104,7 +105,7 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
 
     return (<>
         <div className='edit-profile-top'>
-            <h1>Edit Profile</h1>
+            <span className='heading'>Edit Profile</span>
             <div
                 className="close-button"
                 onClick={e => setOpenEditProfile(!openEditProfile)}
@@ -115,15 +116,15 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
         <hr />
         <form className="edit-profile-bottom" onSubmit={updateProfile}>
             <div className="profile-pic">
-                <h2>Profile picture</h2>
+                <span className='title'>Profile picture</span>
                 <div className="right">
                     <div className="image-container">
                         <img
                             src={
                                 userInputs.profilePic
                                     ? userInputs.profilePic
-                                    : updatedUser.profilePic
-                                        ? updatedUser.profilePic
+                                    : currentUser.profilePic
+                                        ? currentUser.profilePic
                                         : '/avatar.png'
                             }
                             alt="" />
@@ -142,15 +143,15 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                 </div>
             </div>
             <div className="cover-pic">
-                <h2>Cover picture</h2>
+                <span className='title'>Cover picture</span>
                 <div className="right">
                     <div className="image-container">
                         <img
                             src={
                                 userInputs.coverPic
                                     ? userInputs.coverPic
-                                    : updatedUser.coverPic
-                                        ? updatedUser.coverPic
+                                    : currentUser.coverPic
+                                        ? currentUser.coverPic
                                         : '/coverpic.jpg'
                             }
                             alt="" />
@@ -176,44 +177,44 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
 
             <div className="intro-item">
                 <h3>Name</h3>
-                <input type="text" name="name" onChange={handleUserInputChange} />
+                <input type="text" name="name" onChange={handleUserInputChange} value={userInputs.name} />
             </div>
             <div className="intro-item">
                 <h3>Works At</h3>
-                <input type="text" name='worksAt' onChange={handleUserInputChange} />
+                <input type="text" name='worksAt' onChange={handleUserInputChange} value={userInputs.worksAt} />
             </div>
             <div className="intro-item">
                 <h3>Studied At (School)</h3>
-                <input type="text" name='school' onChange={handleUserInputChange} />
+                <input type="text" name='school' onChange={handleUserInputChange} value={userInputs.school} />
             </div>
             <div className="intro-item">
                 <h3>Studied At (College)</h3>
-                <input type="text" name='college' onChange={handleUserInputChange} />
+                <input type="text" name='college' onChange={handleUserInputChange} value={userInputs.college} />
             </div>
             <div className="intro-item">
                 <h3>Lives In</h3>
-                <input type="text" name='currentAddress' onChange={handleUserInputChange} />
+                <input type="text" name='currentAddress' onChange={handleUserInputChange} value={userInputs.currentAddress} />
             </div>
             <div className="intro-item">
                 <h3>From</h3>
-                <input type="text" name='permanentAddress' onChange={handleUserInputChange} />
+                <input type="text" name='permanentAddress' onChange={handleUserInputChange} value={userInputs.permanentAddress} />
             </div>
 
             <hr />
 
-            <div className='gender' onChange={handleUserInputChange}>
+            <div className='gender' onChange={handleUserInputChange} >
                 <h3>Gender</h3>
-                <div className="rdaio-buttons">
+                <div className="radio-buttons">
                     <label htmlFor='male' className='radio-button'>
-                        <input type="radio" id='male' name='gender' value="male" />
+                        <input type="radio" id='male' name='gender' value="male" checked={userInputs.gender === 'male'} />
                         Male
                     </label>
                     <label htmlFor='female' className='radio-button'>
-                        <input type="radio" id='female' name='gender' value="female" />
+                        <input type="radio" id='female' name='gender' value="female" checked={userInputs.gender === 'female'} />
                         Female
                     </label>
                     <label htmlFor='other' className='radio-button'>
-                        <input type="radio" id='other' name='gender' value="other" />
+                        <input type="radio" id='other' name='gender' value="other" checked={userInputs.gender === 'other'} />
                         Other
                     </label>
                 </div>
@@ -228,13 +229,15 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                     name='dateOfBirth'
                     onChange={handleUserInputChange}
                     max={new Date().toISOString().split("T")[0]}
+                    // value={userInputs.dateOfBirth}
+                    value={new Date(userInputs.dateOfBirth)}
                 />
             </div>
 
             <hr />
 
             <button
-                className={isDisabled ? "disabled-submit-button" : "submit-button"}
+                className="submit-button"
                 type='submit'
                 disabled={isDisabled}
             >

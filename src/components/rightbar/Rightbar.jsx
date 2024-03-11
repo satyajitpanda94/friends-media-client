@@ -4,6 +4,8 @@ import { AuthContext } from '../../context/authContext'
 import axios from 'axios'
 import MayBeFriend from '../mayBeFriend/MayBeFriend'
 import FriendRequestFrom from '../friendRequestFrom/FriendRequestFrom'
+import { useQuery } from '@tanstack/react-query'
+import Contact from '../contact/Contact'
 
 export default function Rightbar() {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -11,18 +13,30 @@ export default function Rightbar() {
     const { user } = useContext(AuthContext)
     const [mayBeFriends, setMayBeFriends] = useState([])
 
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
+        queryFn: async () => {
+            const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
+            return res.data
+        }
+    })
+
     useEffect(() => {
         const getUsers = async () => {
             return await axios.get(`${apiBaseURL}/user/all`)
         }
 
-        getUsers()
-            .then(res => setMayBeFriends(
-                res.data.filter(mayBeFriend => {
-                    return user._id !== mayBeFriend._id && (!user.friends.includes(mayBeFriend._id))
-                }))
-            )
-    }, [])
+        currentUser &&
+            getUsers()
+                .then(res => setMayBeFriends(
+                    res.data.filter(mayBeFriend => {
+                        return currentUser._id !== mayBeFriend._id &&
+                            (!currentUser.friends.includes(mayBeFriend._id)) &&
+                            (!currentUser.friendRequestsSent.includes(mayBeFriend._id)) &&
+                            (!currentUser.friendRequestsFrom.includes(mayBeFriend._id))
+                    }))
+                )
+    }, [currentUser])
 
     return (
         <div className='rightbar-container'>
@@ -42,8 +56,8 @@ export default function Rightbar() {
             <div className="friend-request-container">
                 <span className='title'>Friend requests</span>
                 {
-                    user &&
-                    user.friendRequestsFrom.map((friendRequestFrom, indx) => (
+                    currentUser &&
+                    currentUser.friendRequestsFrom.map((friendRequestFrom, indx) => (
                         <FriendRequestFrom friendRequestFromId={friendRequestFrom} key={indx} />
                     ))
                 }
@@ -51,41 +65,11 @@ export default function Rightbar() {
             <hr />
             <div className="contacts-container">
                 <span className='title'>Contacts</span>
-                <div className="contact">
-                    <img
-                        src="https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt=""
-                    />
-                    <span className="name">Tony Stark</span>
-                </div>
-                <div className="contact">
-                    <img
-                        src="https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt=""
-                    />
-                    <span className="name">Sham Inglish</span>
-                </div>
-                <div className="contact">
-                    <img
-                        src="https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt=""
-                    />
-                    <span className="name">Antony Brigenja</span>
-                </div>
-                <div className="contact">
-                    <img
-                        src="https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt=""
-                    />
-                    <span className="name">Tom Harish</span>
-                </div>
-                <div className="contact">
-                    <img
-                        src="https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt=""
-                    />
-                    <span className="name">Monty Singh</span>
-                </div>
+                {
+                    currentUser?.contacts.toReversed().map(contactId => (
+                        <Contact key={contactId} contactId={contactId} currentUser={currentUser} />
+                    ))
+                }
             </div>
         </div >
     )

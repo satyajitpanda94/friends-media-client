@@ -5,7 +5,7 @@ import Post from '../post/Post'
 import './Posts.scss'
 import { useQuery } from '@tanstack/react-query'
 
-export default function Posts({posts}) {
+export default function Posts({ posts }) {
     return (
         <div className='posts-container'>
             {

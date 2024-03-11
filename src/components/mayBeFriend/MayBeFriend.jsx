@@ -3,26 +3,31 @@ import './MayBeFriend.scss'
 import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 
 export default function MayBeFriends({ mayBeFriend }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
-    const { user, setUser } = useContext(AuthContext)
-    const [friendRequestsSent, setFriendRequestSent] = useState(user.friendRequestsSent.includes(mayBeFriend._id))
+    const { user } = useContext(AuthContext)
+
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
+        queryFn: async () => {
+            const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
+            return res.data
+        }
+    })
+
+    const [friendRequestsSent, setFriendRequestSent] = useState(false)
 
     const sendFriendRequest = async (e) => {
         e.preventDefault()
-        const res = await axios.put(`${apiBaseURL}/user/${user._id}/add-friend-request`, { friendRequestTo: mayBeFriend._id })
-        setUser(pre => { return { ...pre, friendRequestsSent: [...pre.friendRequestsSent, mayBeFriend._id] } })
+        await axios.put(`${apiBaseURL}/user/${user._id}/add-friend-request`, { friendRequestTo: mayBeFriend._id })
         setFriendRequestSent(!friendRequestsSent)
     }
 
     const cancleFriendRequest = async (e) => {
         e.preventDefault()
-        const res = await axios.put(`${apiBaseURL}/user/${user._id}/cancle-friend-request`, { friendRequestTo: mayBeFriend._id })
-        setUser(pre => {
-            const friendRequestsSent = pre.friendRequestsSent.filter(friendRequestTo => friendRequestTo !== mayBeFriend._id)
-            return { ...pre, friendRequestsSent }
-        })
+        await axios.put(`${apiBaseURL}/user/${user._id}/cancle-friend-request`, { friendRequestTo: mayBeFriend._id })
         setFriendRequestSent(!friendRequestsSent)
     }
 
@@ -34,9 +39,9 @@ export default function MayBeFriends({ mayBeFriend }) {
                         src={mayBeFriend.profilePic ? mayBeFriend.profilePic : "/avatar.png"}
                         alt="profile pic"
                     />
-                    <span className="name">
+                    <div className="name">
                         {mayBeFriend.name}
-                    </span>
+                    </div>
                 </div>
             </Link>
             <div className="right-container">

@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 85%;
+    width: 100%;
     padding: 10px;
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.35);
     border-radius: 10px;
+    background-color: white;
 
     .share-post-top {
         display: flex;

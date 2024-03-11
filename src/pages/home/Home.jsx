@@ -8,9 +8,6 @@ import Rightbar from '../../components/rightbar/Rightbar'
 export default function Home() {
     return (
         <div>
-            <div className="navbar-wrapper">
-                <Navbar />
-            </div>
             <div className="home-container">
                 <div className="leftbar-wrapper">
                     <Leftbar />

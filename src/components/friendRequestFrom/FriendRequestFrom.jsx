@@ -2,57 +2,61 @@ import React, { useContext, useEffect, useState } from 'react'
 import './FriendRequestFrom.scss'
 import { AuthContext } from '../../context/authContext'
 import axios from 'axios'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 
-export default function FriendRequestFrom({friendRequestFromId}) {
+export default function FriendRequestFrom({ friendRequestFromId }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
 
-    const { user,setUser } = useContext(AuthContext)
-    const [friendRequestFrom,setFriendRequestFrom]= useState(null)
+    const { user } = useContext(AuthContext)
+    const [friendRequestFrom, setFriendRequestFrom] = useState(null)
     const queryClient = useQueryClient()
 
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
+        queryFn: async () => {
+            const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
+            return res.data
+        }
+    })
 
-    const confirmFriendRequest = async (e) => { 
+    const confirmFriendRequest = async (e) => {
         e.preventDefault()
-        await axios.put(`${apiBaseURL}/user/${user._id}/make-friend`, { friendRequestFrom: friendRequestFromId })
-        setUser(pre=>{
-            const friendRequestsFrom = pre.friendRequestsFrom.filter(friendRequestFrom => friendRequestFrom !== friendRequestFromId)
-            return { ...pre, friendRequestsFrom, friends:[friendRequestFromId] }
-        })
-        await queryClient.invalidateQueries({ queryKey: ['allposts'] })
-     }
+        await axios.put(`${apiBaseURL}/user/${currentUser._id}/follow-friend`, { friendRequestFrom: friendRequestFromId })
+        queryClient.invalidateQueries({ queryKey: ['allposts'] })
+        queryClient.invalidateQueries({ queryKey: ['user'] })
+    }
 
     const deleteFriendRequest = async (e) => {
         e.preventDefault()
-        await axios.put(`${apiBaseURL}/user/${friendRequestFromId}/cancle-friend-request`, { friendRequestTo: user._id })
-        setUser(pre => {
-            const friendRequestsFrom = pre.friendRequestsFrom.filter(friendRequestFrom => friendRequestFrom !== friendRequestFromId)
-            return { ...pre, friendRequestsFrom }
-        })
+        await axios.put(`${apiBaseURL}/user/${friendRequestFromId}/cancle-friend-request`, { friendRequestTo: currentUser._id })
+        queryClient.invalidateQueries({ queryKey: ['user'] })
     }
 
-    useEffect(()=>{
-        const getUserById = async() => { 
+    useEffect(() => {
+        const getUserById = async () => {
             return await axios.get(`${apiBaseURL}/user/${friendRequestFromId}`)
-         }
+        }
 
-         getUserById().then(
-            res=>setFriendRequestFrom(res.data)
-         )
-    },[friendRequestFromId])
+        getUserById().then(
+            res => setFriendRequestFrom(res.data)
+        )
+    }, [friendRequestFromId])
 
     return (
         <div className="friend-request-from-container">
-            <div className="right-container">
-                <img
-                    src={friendRequestFrom?.profilePic}
-                    alt=""
-                />
-            </div>
             <div className="left-container">
-                <span className="name">
+                <Link to={`/profile/${friendRequestFromId}`}>
+                    <img
+                        src={friendRequestFrom?.profilePic}
+                        alt=""
+                    />
+                </Link>
+            </div>
+            <div className="right-container">
+                <Link className="name" to={`/profile/${friendRequestFromId}`}>
                     {friendRequestFrom?.name}
-                </span>
+                </Link>
                 <div className="button-container">
                     <div className="confirm-button" onClick={confirmFriendRequest}>Confirm</div>
                     <div className="delete-button" onClick={deleteFriendRequest}>Delete</div>

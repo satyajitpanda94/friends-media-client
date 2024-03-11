@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Registration from './pages/registration/Registration'
 import Login from './pages/login/Login'
 import Home from './pages/home/Home'
@@ -10,6 +10,12 @@ import {
 } from '@tanstack/react-query'
 import Profile from './pages/profile/Profile'
 import Photo from './pages/photo/Photo'
+import Photos from './pages/photos/Photos'
+import AllFriends from './pages/allFriends/AllFriends'
+import SearchResult from './pages/searchResult/SearchResult'
+import Navbar from './components/navbar/Navbar'
+import Messenger from './pages/messenger/Messenger'
+import ScrollToTop from './components/scrollToTop/ScrollToTop'
 
 export default function App() {
   const { user } = useContext(AuthContext)
@@ -18,12 +24,24 @@ export default function App() {
   return (<div>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+      <ScrollToTop />
         <Routes>
-          <Route path='/' element={user ? <Home /> : <Login />} />
           <Route path='/signup' element={<Registration />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/profile/:id' element={<Profile />} />
           <Route path='/photo/:id' element={<Photo />} />
+          <Route element={
+            <>
+              <Navbar />
+              <Outlet />
+            </>
+          }>
+            <Route path='/' element={user ? <Home /> : <Login />} />
+            <Route path='/profile/:id' element={<Profile />} />
+            <Route path='/profile/:id/photos' element={<Photos />} />
+            <Route path='/profile/:id/friends' element={<AllFriends />} />
+            <Route path='/search' element={<SearchResult />} />
+            <Route path='/messages/:id' element={<Messenger />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
