@@ -22,6 +22,8 @@ export default function SharePost() {
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['allposts'] })
+            await queryClient.invalidateQueries({ queryKey: ['timelinePostsByPage'] })
+            await queryClient.invalidateQueries({ queryKey: ['profilePostsByPage'] })
             await queryClient.invalidateQueries({ queryKey: ['user'] })
         }
     })

@@ -11,7 +11,7 @@ export default function Feed() {
   const { user } = useContext(AuthContext)
 
   const { data: timelinePosts, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["postsByPage"],
+    queryKey: ["timelinePostsByPage"],
     queryFn: async ({ pageParam }) => {
       const res = await axios.get(`${apiBaseURL}/post/timeline/${user._id}?page=${pageParam}`)
       return res.data

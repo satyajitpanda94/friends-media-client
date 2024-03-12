@@ -44,12 +44,10 @@ export default function AllFriends() {
             <div className="all-friends-container-left">
                 <Link to={`/profile/${profileUser?._id}`} className="profile-info-container">
                     {
-                        profileUser?.profilePic ?
-                            <img
-                                src={profileUser?.profilePic}
-                                alt=""
-                            /> :
-                            <IoPersonSharp className='avatar' />
+                        <img
+                            src={profileUser?.profilePic ? profileUser.profilePic : "/avatar.png"}
+                            alt=""
+                        />
                     }
 
                     <span className="name">
@@ -59,16 +57,19 @@ export default function AllFriends() {
             </div>
 
             <div className="all-friends-container-right">
-                <div className="friends-container">
-                    <span className='container-title'>Friends</span>
-                    <div className="friends">
-                        {
-                            profileUser?.friends.map((userId, indx) => (
-                                <User userId={userId} currentUserId={currentUser?._id} key={indx} />
-                            ))
-                        }
+                {
+                    profileUser?.friends.length > 0 &&
+                    <div className="friends-container">
+                        <span className='container-title'>Friends</span>
+                        <div className="friends">
+                            {
+                                profileUser?.friends.map((userId, indx) => (
+                                    <User userId={userId} currentUserId={currentUser?._id} key={indx} />
+                                ))
+                            }
+                        </div>
                     </div>
-                </div>
+                }
 
                 {
                     currentUser?._id === profileUser?._id &&
@@ -85,13 +86,13 @@ export default function AllFriends() {
                                         ))
                                     }
                                 </div>
+                                <hr />
                             </div>
                         }
-                        
+
                         {
                             mayBeFriends && mayBeFriends.length > 0 &&
                             <div className="suggested-friends-container">
-                                <hr />
                                 <span className='container-title'>Suggested Friends</span>
                                 <div className="suggested-friends">
                                     {

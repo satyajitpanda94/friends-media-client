@@ -10,7 +10,7 @@ export default function PhotoGallery({ profileUserId }) {
     const { data: posts } = useQuery({
         queryKey: ["allposts", profileUserId],
         queryFn: async () => {
-            const res = await axios.get(apiBaseURL + "/post/profile/" + profileUserId + "?limit=10")
+            const res = await axios.get(apiBaseURL + "/post/profile/" + profileUserId + "?limit=50")
             return res.data
         }
     })

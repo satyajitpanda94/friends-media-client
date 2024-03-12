@@ -44,6 +44,11 @@ export default function Intro({profileUser}) {
                     <span>From {profileUser?.permanentAddress}</span>
                 </div>
             }
+            {
+                !(profileUser?.worksAt && profileUser?.worksAt && profileUser?.college &&
+                profileUser?.currentAddress && profileUser?.currentAddress && profileUser?.permanentAddress) && 
+                <p className='no-intro-warning'>Update your Profile!!!</p>
+            }
         </div>
     )
 }

@@ -41,7 +41,7 @@ export default function Profile() {
     const [friendRequestsSent, setFriendRequestSent] = useState(currentUser?.friendRequestsSent.includes(paramId))
 
     const { data: postsByPage, fetchNextPage } = useInfiniteQuery({
-        queryKey: ["postsByPage", paramId],
+        queryKey: ["profilePostsByPage", paramId],
         queryFn: async ({ pageParam }) => {
             const res = await axios.get(`${apiBaseURL}/post/profile/${paramId}?page=${pageParam}`)
             return res.data
@@ -51,7 +51,6 @@ export default function Profile() {
             return lastPage.length ? allPages.length + 1 : undefined
         }
     })
-
 
     const handleInfiniteScroll = async () => {
         if (
