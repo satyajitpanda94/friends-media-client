@@ -57,19 +57,22 @@ export default function AllFriends() {
             </div>
 
             <div className="all-friends-container-right">
-                {
-                    profileUser?.friends.length > 0 &&
-                    <div className="friends-container">
-                        <span className='container-title'>Friends</span>
-                        <div className="friends">
-                            {
-                                profileUser?.friends.map((userId, indx) => (
-                                    <User userId={userId} currentUserId={currentUser?._id} key={indx} />
-                                ))
-                            }
-                        </div>
-                    </div>
-                }
+                <div className="friends-container">
+                    <span className='container-title'>Friends</span>
+                    {
+                        profileUser?.friends.length > 0 ?
+                            <div className="friends">
+                                {
+                                    profileUser?.friends.map((userId, indx) => (
+                                        <User userId={userId} currentUserId={currentUser?._id} key={indx} />
+                                    ))
+                                }
+                            </div> :
+                            <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '1.25rem', paddingBlock:'10px' }}>
+                                Don't have friends.
+                            </div>
+                    }
+                </div>
 
                 {
                     currentUser?._id === profileUser?._id &&
@@ -86,13 +89,13 @@ export default function AllFriends() {
                                         ))
                                     }
                                 </div>
-                                <hr />
                             </div>
                         }
 
                         {
                             mayBeFriends && mayBeFriends.length > 0 &&
                             <div className="suggested-friends-container">
+                                <hr />
                                 <span className='container-title'>Suggested Friends</span>
                                 <div className="suggested-friends">
                                     {
