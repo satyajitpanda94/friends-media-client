@@ -162,7 +162,6 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                             type="file"
                             id='coverPic'
                             style={{ display: 'none' }}
-                            // ref={coverPic}
                             onChange={(e) => uploadPicToFirebase(e.target.files[0], 'coverPic', coverPicProgress)}
                         />
                         <MdFileUpload />
@@ -229,7 +228,6 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                     name='dateOfBirth'
                     onChange={handleUserInputChange}
                     max={new Date().toISOString().split("T")[0]}
-                    // value={userInputs.dateOfBirth}
                     value={new Date(userInputs.dateOfBirth)}
                 />
             </div>

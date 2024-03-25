@@ -24,7 +24,6 @@ export default function Photo() {
     const [isLiked, setIsLiked] = useState(false)
     const [totalLikes, setTotalLikes] = useState(0)
 
-
     const updatePic = async (e, imageType) => {
         e.preventDefault()
         await axios.put(`${apiBaseURL}/user/${user._id}`, {

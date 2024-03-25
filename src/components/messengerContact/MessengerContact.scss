@@ -31,30 +31,11 @@
 
 @media screen and (min-width:768px) {
     .messenger-contact {
-        // display: flex;
-        // align-items: center;
-        // gap: 5px;
-        // cursor: pointer;
-        // padding: 5px;
-        // border-radius: 5px;
         justify-content: flex-start;
-
-    
-        // img {
-        //     width: 50px;
-        //     aspect-ratio: 1/1;
-        //     border-radius: 50%;
-        //     object-fit: cover;
-        //     border: 1px solid rgb(230, 230, 230);
-        // }
     
         .name {
             display: inline-block;
             font-weight: 500;
         }
-    
-        // &:hover {
-        //     background-color: rgb(242, 242, 242);
-        // }
     }
 }

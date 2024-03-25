@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../components/navbar/Navbar'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import './Photos.scss'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { IoPersonSharp } from 'react-icons/io5'
 
 export default function Photos() {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
 
     const { id: profileId } = useParams()
-    // const [postsByPage, setPosts] = useState([])
 
     const { data: profileUser } = useQuery({
         queryKey: ["profileUser", profileId],

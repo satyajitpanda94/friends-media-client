@@ -3,10 +3,6 @@
     background-color: #f3f2f5;
     flex-direction: column;
 
-    // width: 60%;
-    // margin: 20px auto;
-    // gap: 20px;
-
     .photo-gallery-profile-info {
         background-color: white;
         display: flex;
@@ -40,15 +36,12 @@
     }
 
     .photo-gallery-container {
-        // width: 100%;
-        // box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
         padding: 20px;
         display: flex;
         flex-direction: column;
         gap: 10px;
 
         .photos {
-            // width: 100%;
             display: flex;
             flex-wrap: wrap;
             align-items: center;

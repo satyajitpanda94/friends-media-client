@@ -20,8 +20,6 @@ export default function User({ userId, currentUserId }) {
     })
 
 
-    console.log('friend', friendRequestsSent)
-
     const sendFriendRequest = async (e) => {
         e.preventDefault()
         await axios.put(`${apiBaseURL}/user/${currentUser._id}/add-friend-request`, { friendRequestTo: userId })
@@ -51,9 +49,6 @@ export default function User({ userId, currentUserId }) {
         await axios.put(`${apiBaseURL}/user/${currentUser._id}/unfollow-friend`, { friendId: userId })
         setDisableButton(!disableButton)
     }
-
-    // console.log(currentUser)
-    // console.log(user)
 
     useEffect(() => {
         const getFriendById = async () => {
