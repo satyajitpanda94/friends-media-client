@@ -30,7 +30,7 @@ export default function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/photo/:id' element={<Photo />} />
           <Route element={
-            <>
+            user && <>
               <Navbar />
               <Outlet />
             </>
