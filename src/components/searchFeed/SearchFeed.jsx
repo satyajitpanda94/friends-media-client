@@ -2,6 +2,7 @@ import React from 'react'
 import './SearchFeed.scss'
 import { Link } from 'react-router-dom'
 import Posts from '../posts/Posts'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function SearchFeed({ searchedUsers, searchedPosts }) {
     return (
@@ -11,7 +12,11 @@ export default function SearchFeed({ searchedUsers, searchedPosts }) {
                 {
                     searchedUsers.map(searchedUser => (
                         <Link className="searched-user-container" to={`/profile/${searchedUser._id}`}>
-                            <img src={searchedUser.profilePic} alt="" />
+                            {
+                                searchedUser.profilePic ?
+                                    <img src={searchedUser.profilePic} alt="" /> :
+                                    <IoPersonSharp className='avatar' />
+                            }
                             <div className="user-info">
                                 <span className='name'>{searchedUser.name}</span>
                                 <div className="user-intro">

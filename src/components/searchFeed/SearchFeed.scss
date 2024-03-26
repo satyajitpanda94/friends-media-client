@@ -18,10 +18,19 @@
             font-size: 1rem;
 
             img {
-                width: 70px;
-                height: 70px;
+                width: 60px;
+                aspect-ratio: 1/1;
                 border-radius: 50%;
                 object-fit: cover;
+            }
+
+            .avatar {
+                padding: 5px;
+                background-color: #e2e5ea;
+                font-size: 60px;
+                border-radius: 50%;
+                line-height: 0;
+                padding: 6px;
             }
 
             .user-info {
