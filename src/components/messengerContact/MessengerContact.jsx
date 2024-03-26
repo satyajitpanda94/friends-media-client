@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './MessengerContact.scss'
 import axios from 'axios'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function MessengerContact({ contactId, selectedContact, setSelectedContact }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -18,13 +19,17 @@ export default function MessengerContact({ contactId, selectedContact, setSelect
 
     return (
         <div
-            className={ contactId===selectedContact?._id ?'messenger-contact active' : 'messenger-contact'}
+            className={contactId === selectedContact?._id ? 'messenger-contact active' : 'messenger-contact'}
             onClick={e => setSelectedContact(contact)}
         >
-            <img
-                src={contact?.profilePic}
-                alt=""
-            />
+            {
+                contact?.profilePic ?
+                    <img
+                        src={contact?.profilePic}
+                        alt=""
+                    /> :
+                    <IoPersonSharp className='avatar' />
+            }
             <span className="name">{contact?.name}</span>
         </div>
     )

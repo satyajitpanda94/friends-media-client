@@ -39,8 +39,8 @@ export default function SearchFeed({ searchedUsers, searchedPosts }) {
                 }
             </div>
             <div className="searched-post-container">
-                <Posts posts={searchedPosts}/>
-            </div>  
+                <Posts posts={searchedPosts} />
+            </div>
         </div>
     )
 }

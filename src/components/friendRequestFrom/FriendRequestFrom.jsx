@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/authContext'
 import axios from 'axios'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function FriendRequestFrom({ friendRequestFromId }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -47,10 +48,14 @@ export default function FriendRequestFrom({ friendRequestFromId }) {
         <div className="friend-request-from-container">
             <div className="left-container">
                 <Link to={`/profile/${friendRequestFromId}`}>
-                    <img
-                        src={friendRequestFrom?.profilePic}
-                        alt=""
-                    />
+                    {
+                        friendRequestFrom?.profilePic ?
+                            <img
+                                src={friendRequestFrom?.profilePic}
+                                alt=""
+                            /> :
+                            <IoPersonSharp className='avatar' />
+                    }
                 </Link>
             </div>
             <div className="right-container">

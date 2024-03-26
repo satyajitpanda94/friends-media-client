@@ -68,7 +68,7 @@ export default function AllFriends() {
                                     ))
                                 }
                             </div> :
-                            <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '1.25rem', paddingBlock:'10px' }}>
+                            <div style={{ textAlign: 'center', fontWeight: '500', fontSize: '1.25rem', paddingBlock: '10px' }}>
                                 Don't have friends.
                             </div>
                     }

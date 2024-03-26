@@ -33,7 +33,7 @@ export default function Photo() {
         navigate('/profile/' + user._id)
     }
 
-    const handleLike = async() => {
+    const handleLike = async () => {
         try {
             await axios.put(apiBaseURL + '/post/' + post._id + '/like', { userId: user._id })
             setTotalLikes(isLiked ? totalLikes - 1 : totalLikes + 1)

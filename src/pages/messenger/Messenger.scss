@@ -51,6 +51,15 @@
                         object-fit: cover;
                         border: 1px solid #a0a0e0;
                     }
+
+                    .avatar {
+                        padding: 5px;
+                        background-color: #e2e5ea;
+                        font-size: 40px;
+                        border-radius: 50%;
+                        line-height: 0;
+                        padding: 6px;
+                    }
                 }
             }
 

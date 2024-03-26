@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Contact.scss'
 import axios from 'axios'
 import MessengerModal from '../messengerModal/MessengerModal'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function Contact({ contactId, currentUser }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -20,10 +21,14 @@ export default function Contact({ contactId, currentUser }) {
     }, [contactId])
     return (<>
         <div className="contact" onClick={e => setOpenMessengerModal(!openMessengerModal)}>
-            <img
-                src={contact?.profilePic}
-                alt=""
-            />
+            {
+                contact?.profilePic ?
+                    <img
+                        src={contact?.profilePic}
+                        alt=""
+                    /> :
+                    <IoPersonSharp className='avatar' />
+            }
             <span className="name">{contact?.name}</span>
         </div>
         {

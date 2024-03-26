@@ -23,7 +23,7 @@ export default function Friend({ friendId }) {
     return (
         <div className="friend-container">
             <Link to={`/profile/${friend?._id}`}>
-                <img src={friend?.profilePic} alt="" />
+                <img src={friend?.profilePic ? friend?.profilePic : "/avatar.png"} alt="" />
                 <span className="friend-name">
                     {
                         friend?._id === user._id ? 'You' : friend?.name

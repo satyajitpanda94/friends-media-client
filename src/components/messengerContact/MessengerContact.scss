@@ -16,6 +16,15 @@
         border: 1px solid rgb(230, 230, 230);
     }
 
+    .avatar {
+        padding: 5px;
+        background-color: #e2e5ea;
+        font-size: 50px;
+        border-radius: 50%;
+        line-height: 0;
+        padding: 6px;
+    }
+
     .name {
         display: none;
     }

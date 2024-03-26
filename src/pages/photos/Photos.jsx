@@ -33,7 +33,7 @@ export default function Photos() {
         if (postsByPage && hasNextPage) {
             fetchNextPage()
         }
-    }, [postsByPage,hasNextPage])
+    }, [postsByPage, hasNextPage])
 
     return (
         <div className='photos-container'>
@@ -41,9 +41,9 @@ export default function Photos() {
                 <Link to={`/profile/${profileUser?._id}`} className="profile-info-container">
                     {
                         <img
-                        src={profileUser?.profilePic ? profileUser.profilePic : "/avatar.png"}
-                        alt=""
-                    />
+                            src={profileUser?.profilePic ? profileUser.profilePic : "/avatar.png"}
+                            alt=""
+                        />
                     }
 
                     <span className="name">

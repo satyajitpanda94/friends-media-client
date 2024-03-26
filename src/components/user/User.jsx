@@ -62,7 +62,7 @@ export default function User({ userId, currentUserId }) {
     return (
         <div className='user-container'>
             <Link to={`/profile/${user?._id}`} className='user-profile-pic'>
-                <img src={user?.profilePic} alt="" />
+                <img src={user?.profilePic ? user?.profilePic : "/avatar.png"} alt="" />
             </Link>
 
             <div className="user-container-bottom">
@@ -74,10 +74,10 @@ export default function User({ userId, currentUserId }) {
                 {
                     user?.friends.includes(currentUser._id) ?
                         (<div className="button-container">
-                            <div 
-                            className="unfollow-button"
-                            disabled={disableButton}
-                            onClick={unfollowFriend}
+                            <div
+                                className="unfollow-button"
+                                disabled={disableButton}
+                                onClick={unfollowFriend}
                             >
                                 Unfollow
                             </div>

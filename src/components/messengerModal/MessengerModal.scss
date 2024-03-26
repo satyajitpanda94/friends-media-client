@@ -25,6 +25,15 @@
                 border-radius: 50%;
                 object-fit: cover;
             }
+
+            .avatar {
+                padding: 5px;
+                background-color: #e2e5ea;
+                font-size: 35px;
+                border-radius: 50%;
+                line-height: 0;
+                padding: 6px;
+            }
         }
 
         .cancle-button {

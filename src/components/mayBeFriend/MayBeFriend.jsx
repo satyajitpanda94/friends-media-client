@@ -4,6 +4,7 @@ import axios from 'axios'
 import { AuthContext } from '../../context/authContext'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function MayBeFriends({ mayBeFriend }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -35,10 +36,14 @@ export default function MayBeFriends({ mayBeFriend }) {
         <div className="may-be-friend-container">
             <Link to={`/profile/${mayBeFriend._id}`}>
                 <div className="left-container">
-                    <img
-                        src={mayBeFriend.profilePic ? mayBeFriend.profilePic : "/avatar.png"}
-                        alt="profile pic"
-                    />
+                    {
+                        mayBeFriend?.profilePic ?
+                            <img
+                                src={mayBeFriend?.profilePic}
+                                alt="profile pic"
+                            /> :
+                            <IoPersonSharp className='avatar' />
+                    }
                     <div className="name">
                         {mayBeFriend.name}
                     </div>

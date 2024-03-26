@@ -6,6 +6,7 @@ import { format } from 'timeago.js'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Chats from '../chats/Chats'
 import MessageInput from '../messageInput/MessageInput'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function MessengerModal({ recieverUser, currentUser, setOpenMessengerModal }) {
   const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -24,7 +25,11 @@ export default function MessengerModal({ recieverUser, currentUser, setOpenMesse
     <div className='messenger-modal-conatiner'>
       <div className="messenger-modal-topbar">
         <div className="messenger-modal-topbar-left">
-          <img src={recieverUser.profilePic} alt="" />
+          {
+            recieverUser.profilePic ?
+              <img src={recieverUser.profilePic} alt="" /> :
+              <IoPersonSharp className='avatar' />
+          }
           <span>{recieverUser.name}</span>
         </div>
         <div className="cancle-button" onClick={e => setOpenMessengerModal(false)} >

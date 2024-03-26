@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import './Chats.scss'
+import { IoPersonSharp } from 'react-icons/io5'
 
 export default function Chats({ chats, recieverUser, currentUser }) {
     const scrollRef = useRef()
@@ -7,11 +8,11 @@ export default function Chats({ chats, recieverUser, currentUser }) {
     const formateDate = (dateStr) => {
         const date = new Date(dateStr)
         return date.getDate() + '/'
-          + date.getMonth() + 1 + '/'
-          + date.getFullYear() + ', '
-          + (date.getHours() + '').padStart(2, '0') + ':'
-          + (date.getMinutes() + '').padStart(2, '0')
-      }
+            + date.getMonth() + 1 + '/'
+            + date.getFullYear() + ', '
+            + (date.getHours() + '').padStart(2, '0') + ':'
+            + (date.getMinutes() + '').padStart(2, '0')
+    }
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -34,7 +35,11 @@ export default function Chats({ chats, recieverUser, currentUser }) {
                         }>
                             {
                                 chat.senderUserId === recieverUser._id &&
-                                <img src={recieverUser.profilePic} alt="" />
+                                (
+                                    recieverUser.profilePic ?
+                                        <img src={recieverUser.profilePic} alt="" /> :
+                                        <IoPersonSharp className='avatar' />
+                                )
                             }
                             <span className='message'>{chat.message}</span>
                         </div>

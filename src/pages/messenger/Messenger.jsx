@@ -8,7 +8,7 @@ import MessengerContact from '../../components/messengerContact/MessengerContact
 import Chats from '../../components/chats/Chats'
 import MessageInput from '../../components/messageInput/MessageInput'
 import SearchBar from '../../components/searchBar/SearchBar'
-import { IoSearch } from 'react-icons/io5'
+import { IoPersonSharp, IoSearch } from 'react-icons/io5'
 
 export default function Messenger() {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -84,7 +84,11 @@ export default function Messenger() {
                         <div className="messenger-feed-container">
                             <div className="messenger-feed-top">
                                 <Link to={`/profile/${selectedContact?._id}`} className='profile-info'>
-                                    <img src={selectedContact?.profilePic} alt="" />
+                                    {
+                                        selectedContact?.profilePic ?
+                                            <img src={selectedContact?.profilePic} alt="" /> :
+                                            <IoPersonSharp className='avatar' />
+                                    }
                                     <h3>{selectedContact?.name}</h3>
                                 </Link>
                             </div>
