@@ -9,6 +9,7 @@ import { format } from 'timeago.js';
 import { MdMoreHoriz } from "react-icons/md";
 import { IoPersonSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Post({ post }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -18,6 +19,7 @@ export default function Post({ post }) {
     const [isLiked, setIsLiked] = useState(false)
     const [postBy, setPostBy] = useState(null)
     const [moreOpen, setMoreOpen] = useState(false)
+    const queryClient = useQueryClient()
 
     const handleLike = () => {
         try {
@@ -32,7 +34,10 @@ export default function Post({ post }) {
     const handleDeletePost = async () => {
         try {
             await axios.delete(apiBaseURL + '/post/' + post._id, { data: { userId: user._id } })
-            window.location.reload()
+            await queryClient.invalidateQueries({ queryKey: ['allposts'] })
+            await queryClient.invalidateQueries({ queryKey: ['timelinePostsByPage'] })
+            await queryClient.invalidateQueries({ queryKey: ['profilePostsByPage'] })
+            setMoreOpen(!moreOpen)
         } catch (err) {
             console.log(err)
         }

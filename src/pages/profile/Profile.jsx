@@ -78,6 +78,10 @@ export default function Profile() {
                 openMessengerModal={openMessengerModal}
                 setOpenMessengerModal={setOpenMessengerModal}
             />
+            {
+                (profileUser?.profilePic === "" || profileUser?.coverPic === "") &&
+                <h1>Update Your Profile !!!</h1>
+            }
 
             <div className="profile-buttom" >
                 <div className="profile-buttom-left">
@@ -89,6 +93,10 @@ export default function Profile() {
                     {
                         currentUser?._id === paramId &&
                         <SharePost />
+                    }
+                    {
+                        postsByPage?.pages[0].length === 0 &&
+                        <h3>Share your first post !!!</h3>
                     }
                     {
                         postsByPage?.pages.map(

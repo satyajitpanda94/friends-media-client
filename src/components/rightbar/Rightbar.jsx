@@ -51,26 +51,46 @@ export default function Rightbar() {
 
             </div>
 
-            <hr />
+            {
+                currentUser?.friendRequestsFrom.length > 0 &&
+                < div className="friend-request-wrapper">
+                    <hr />
 
-            <div className="friend-request-container">
-                <span className='title'>Friend requests</span>
-                {
-                    currentUser &&
-                    currentUser.friendRequestsFrom.map((friendRequestFrom, indx) => (
-                        <FriendRequestFrom friendRequestFromId={friendRequestFrom} key={indx} />
-                    ))
-                }
+                    <div className="friend-request-container">
+                        <span className='title'>Friend requests</span>
+                        {
+                            currentUser &&
+                            currentUser.friendRequestsFrom.map((friendRequestFrom, indx) => (
+                                <FriendRequestFrom friendRequestFromId={friendRequestFrom} key={indx} />
+                            ))
+                        }
+                    </div>
+                </div>
+            }
+
+            <div className="contacts-wrapper">
+                <hr />
+                <div className="contacts-container">
+                    <span className='title'>
+                        {
+                            currentUser?.contacts.length > 0 ? "Your contacts" : "Make some contacts"
+                        }
+
+                    </span>
+                    {
+                        currentUser?.contacts.toReversed().map(contactId => (
+                            <Contact key={contactId} contactId={contactId} currentUser={currentUser} />
+                        ))
+                    }
+                    {
+                        currentUser?.contacts.length === 0 &&
+                        mayBeFriends.map((mayBeFriend, indx) => (
+                            indx > 5 && indx < 12 && <Contact contactId={mayBeFriend._id} currentUser={currentUser} key={indx} />
+                        ))
+                    }
+                </div>
             </div>
-            <hr />
-            <div className="contacts-container">
-                <span className='title'>Contacts</span>
-                {
-                    currentUser?.contacts.toReversed().map(contactId => (
-                        <Contact key={contactId} contactId={contactId} currentUser={currentUser} />
-                    ))
-                }
-            </div>
+
         </div >
     )
 }

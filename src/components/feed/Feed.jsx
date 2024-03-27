@@ -22,7 +22,6 @@ export default function Feed() {
     }
   })
 
-
   const handleInfiniteScroll = async () => {
     if (
       window.innerHeight + document.documentElement.scrollTop + 1 >=

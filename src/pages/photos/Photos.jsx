@@ -52,7 +52,7 @@ export default function Photos() {
                 </Link>
             </div>
             <div className="photo-gallery-container">
-                <h2>Photos</h2>
+                <h2>{postsByPage?.pages[0].length > 0 ? 'Photos' : 'No photos posted up to now !'}</h2>
                 <div className="photos">
                     {
                         postsByPage?.pages.map((posts) => (

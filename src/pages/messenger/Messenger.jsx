@@ -51,7 +51,11 @@ export default function Messenger() {
             <div className="messenger-leftbar">
                 <div className='searchbar-container'>
                     <IoSearch />
-                    <input type="text" value={searchedTerm} onChange={e => setSearchedTerm(e.target.value)} />
+                    <input type="text"
+                        value={searchedTerm}
+                        onChange={e => setSearchedTerm(e.target.value)}
+                        placeholder='Search to contact'
+                    />
                 </div>
 
                 <hr />
@@ -72,7 +76,7 @@ export default function Messenger() {
 
                 {
                     currentUser?.contacts.length === 0 ?
-                        <h2>No contact Found</h2> :
+                        <h3>No contacts Found</h3> :
                         currentUser?.contacts.toReversed().map(contactId => (
                             <MessengerContact key={contactId} contactId={contactId} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
                         ))

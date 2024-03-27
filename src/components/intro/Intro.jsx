@@ -3,7 +3,7 @@ import { FaBriefcase, FaGraduationCap } from 'react-icons/fa6'
 import { IoHome } from 'react-icons/io5'
 import { MdPlace } from 'react-icons/md'
 import './Intro.scss'
-export default function Intro({profileUser}) {
+export default function Intro({ profileUser }) {
     return (
         <div className="intro-container">
             <h2 className='title'>
@@ -43,11 +43,6 @@ export default function Intro({profileUser}) {
                     <MdPlace className='intro-item-icon' />
                     <span>From {profileUser?.permanentAddress}</span>
                 </div>
-            }
-            {
-                !(profileUser?.worksAt && profileUser?.worksAt && profileUser?.college &&
-                profileUser?.currentAddress && profileUser?.currentAddress && profileUser?.permanentAddress) && 
-                <p className='no-intro-warning'>Update your Profile!!!</p>
             }
         </div>
     )
