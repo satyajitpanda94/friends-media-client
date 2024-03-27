@@ -31,7 +31,6 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
         currentAddress: currentUser?.currentAddress,
         permanentAddress: currentUser?.permanentAddress,
         gender: currentUser?.gender,
-        dateOfBirth: currentUser?.dateOfBirth,
     })
 
     const profilePicProgress = useRef()
@@ -88,16 +87,18 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                 userId: user._id,
                 img: userInputs.profilePic,
             })
-            queryClient.invalidateQueries({ queryKey: ['allposts'] })
-            queryClient.invalidateQueries({ queryKey: ['user'] })
+            await queryClient.invalidateQueries({ queryKey: ['allposts'] })
+            await queryClient.invalidateQueries({ queryKey: ['profilePostsByPage'] })
+            await queryClient.invalidateQueries({ queryKey: ['user'] })
         }
         if (userInputs.coverPic) {
             await axios.post(`${apiBaseURL}/post`, {
                 userId: user._id,
                 img: userInputs.coverPic,
             })
-            queryClient.invalidateQueries({ queryKey: ['allposts'] })
-            queryClient.invalidateQueries({ queryKey: ['user'] })
+            await queryClient.invalidateQueries({ queryKey: ['allposts'] })
+            await queryClient.invalidateQueries({ queryKey: ['profilePostsByPage'] })
+            await queryClient.invalidateQueries({ queryKey: ['user'] })
         }
 
         setOpenEditProfile(!openEditProfile)
@@ -176,27 +177,27 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
 
             <div className="intro-item">
                 <h3>Name</h3>
-                <input type="text" name="name" onChange={handleUserInputChange} value={userInputs.name} />
+                <input type="text" name="name" required onChange={handleUserInputChange} value={userInputs.name || ''} />
             </div>
             <div className="intro-item">
                 <h3>Works At</h3>
-                <input type="text" name='worksAt' onChange={handleUserInputChange} value={userInputs.worksAt} />
+                <input type="text" name='worksAt' required onChange={handleUserInputChange} value={userInputs.worksAt || ''} />
             </div>
             <div className="intro-item">
                 <h3>Studied At (School)</h3>
-                <input type="text" name='school' onChange={handleUserInputChange} value={userInputs.school} />
+                <input type="text" name='school' required onChange={handleUserInputChange} value={userInputs.school || ''} />
             </div>
             <div className="intro-item">
                 <h3>Studied At (College)</h3>
-                <input type="text" name='college' onChange={handleUserInputChange} value={userInputs.college} />
+                <input type="text" name='college' required onChange={handleUserInputChange} value={userInputs.college || ''} />
             </div>
             <div className="intro-item">
                 <h3>Lives In</h3>
-                <input type="text" name='currentAddress' onChange={handleUserInputChange} value={userInputs.currentAddress} />
+                <input type="text" name='currentAddress' required onChange={handleUserInputChange} value={userInputs.currentAddress || ''} />
             </div>
             <div className="intro-item">
                 <h3>From</h3>
-                <input type="text" name='permanentAddress' onChange={handleUserInputChange} value={userInputs.permanentAddress} />
+                <input type="text" name='permanentAddress' required onChange={handleUserInputChange} value={userInputs.permanentAddress || ''} />
             </div>
 
             <hr />
@@ -205,31 +206,18 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                 <h3>Gender</h3>
                 <div className="radio-buttons">
                     <label htmlFor='male' className='radio-button'>
-                        <input type="radio" id='male' name='gender' value="male" checked={userInputs.gender === 'male'} onChange={e=>{}} />
+                        <input type="radio" id='male' name='gender' value="male" checked={userInputs.gender === 'male'} onChange={e => { }} required />
                         Male
                     </label>
                     <label htmlFor='female' className='radio-button'>
-                        <input type="radio" id='female' name='gender' value="female" checked={userInputs.gender === 'female'} onChange={e=>{}} />
+                        <input type="radio" id='female' name='gender' value="female" checked={userInputs.gender === 'female'} onChange={e => { }} />
                         Female
                     </label>
                     <label htmlFor='other' className='radio-button'>
-                        <input type="radio" id='other' name='gender' value="other" checked={userInputs.gender === 'other'} onChange={e=>{}} />
+                        <input type="radio" id='other' name='gender' value="other" checked={userInputs.gender === 'other'} onChange={e => { }} />
                         Other
                     </label>
                 </div>
-            </div>
-
-            <hr />
-
-            <div className="date-of-birth">
-                <h3>Date Of Birth</h3>
-                <input
-                    type="date"
-                    name='dateOfBirth'
-                    onChange={handleUserInputChange}
-                    max={new Date().toISOString().split("T")[0]}
-                    value={new Date(userInputs.dateOfBirth)}
-                />
             </div>
 
             <hr />
