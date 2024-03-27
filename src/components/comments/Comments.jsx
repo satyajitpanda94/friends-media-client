@@ -19,6 +19,14 @@ export default function Comments({ postId }) {
     }
   })
 
+  const { data: currentUser } = useQuery({
+    queryKey: ["user", user._id],
+    queryFn: async () => {
+      const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
+      return res.data
+    }
+  })
+
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (newComment) => {
@@ -45,9 +53,9 @@ export default function Comments({ postId }) {
     <div className='comments-container'>
       <div className="comment-input-container">
         {
-          user.profilePic ?
+          currentUser?.profilePic ?
             <img
-              src={user?.profilePic}
+              src={currentUser?.profilePic}
               alt=""
             /> :
             <IoPersonSharp className='avatar' />

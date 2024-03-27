@@ -63,12 +63,28 @@
                     height: 45px;
                     border-radius: 2px;
                     border: 1px solid rgb(228, 228, 228);
-                    font-size: 1.25rem;
-                    padding-inline: 20px;
+                    font-size: 1.125rem;
+                    padding-inline: 10px;
                 }
 
                 .registrationInput:focus {
                     outline-color: #4c99fe;
+                }
+
+                .passwordInput {
+                    position: relative;
+
+                    .registrationInput{
+                        padding-right: 40px;
+                    }
+
+                    .eyeicon {
+                        position: absolute;
+                        top: calc(22px - 0.625rem);
+                        right: 15px;
+                        font-size: 1.25rem;
+                        cursor: pointer;
+                    }
                 }
 
                 .error {
@@ -89,7 +105,7 @@
                     cursor: pointer;
                 }
 
-                .button:hover { 
+                .button:hover {
                     background-color: #4c99fe;
                 }
 
@@ -103,7 +119,7 @@
                     width: 100%;
                 }
 
-                .loginButton:hover{
+                .loginButton:hover {
                     background-color: #21be02;
                 }
             }
@@ -118,6 +134,7 @@
         }
     }
 }
+
 @media screen and (min-width:640px) {
     .registration {
         .registrationWrapper {
@@ -128,36 +145,49 @@
 
 @media screen and (min-width:768px) {
     .registration {
-    
+
         .registrationWrapper {
             flex-direction: row;
             align-items: center;
             justify-content: center;
             gap: 10px;
             width: 100%;
-    
+
             .registrationLeft {
                 align-items: start;
 
                 .registrationLogo {
                     font-size: 3rem;
                 }
-    
+
                 .registrationDesc {
                     font-size: 1.25rem;
                     text-align: left;
                 }
             }
-    
+
             .registrationRight {
                 width: 450px;
-    
+
                 .registrationBox {
-    
+
                     .registrationInput {
                         height: 50px;
+                        font-size: 1.25rem;
+                        padding-inline: 20px;
                     }
+
+                    .passwordInput {
+                        .registrationInput{
+                            padding-right: 45px;
+                        }
     
+                        .eyeicon {
+                            top: calc(25px - 0.75rem);
+                            font-size: 1.5rem;
+                        }
+                    }
+
                     .button {
                         height: 45px;
                         font-size: 1.25rem;

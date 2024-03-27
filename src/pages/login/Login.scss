@@ -63,12 +63,28 @@
                     height: 50px;
                     border-radius: 2px;
                     border: 1px solid rgb(228, 228, 228);
-                    font-size: 1.25rem;
-                    padding-inline: 20px;
+                    font-size: 1.125rem;
+                    padding-inline: 10px;
                 }
 
                 .loginInput:focus {
                     outline-color: #4c99fe;
+                }
+
+                .passwordInput {
+                    position: relative;
+
+                    .loginInput {
+                        padding-right: 40px;
+                    }
+
+                    .eyeicon {
+                        position: absolute;
+                        top: calc(25px - 0.625rem);
+                        right: 15px;
+                        font-size: 1.25rem;
+                        cursor: pointer;
+                    }
                 }
 
                 .error {
@@ -118,6 +134,7 @@
         }
     }
 }
+
 @media screen and (min-width:640px) {
     .login {
         .loginWrapper {
@@ -154,6 +171,19 @@
 
                     .loginInput {
                         height: 60px;
+                        font-size: 1.25rem;
+                        padding-inline: 20px;
+                    }
+
+                    .passwordInput {
+                        .loginInput {
+                            padding-right: 45px;
+                        }
+
+                        .eyeicon {
+                            top: calc(30px - 0.75rem);
+                            font-size: 1.5rem;
+                        }
                     }
 
                     .button {

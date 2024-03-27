@@ -2,15 +2,18 @@ import React, { useRef, useState } from 'react'
 import './Registration.scss'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 export default function Registration() {
-  const apiBaseURL= process.env.REACT_APP_API_BASE_URL
+  const apiBaseURL = process.env.REACT_APP_API_BASE_URL
   const username = useRef()
   const email = useRef()
   const password = useRef()
   const confirmPassword = useRef()
   const [error, setError] = useState(null)
   const navigate = useNavigate()
+  const [typeForPassword, setTypeForPassword] = useState('password');
+  const [typeForConfirmPassword, setTypeForConfirmPassword] = useState('password');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,22 +60,36 @@ export default function Registration() {
               ref={email}
               required
             />
-            <input
-              type="password"
-              placeholder='Password'
-              className="registrationInput"
-              ref={password}
-              required
-              minLength={6}
-            />
-            <input
-              type="password"
-              placeholder='Confirm Password'
-              className="registrationInput"
-              ref={confirmPassword}
-              onInput={e => e.target.setCustomValidity('')}
-              required
-            />
+            <label className='passwordInput'>
+              <input
+                type={typeForPassword}
+                placeholder='Password'
+                className="registrationInput"
+                ref={password}
+                required
+                minLength={6}
+              />
+              {
+                typeForPassword === 'password' ?
+                  <FaEye className='eyeicon' onClick={e => setTypeForPassword('text')} /> :
+                  <FaEyeSlash className='eyeicon' onClick={e => setTypeForPassword('password')} />
+              }
+            </label>
+            <label className='passwordInput'>
+              <input
+                type={typeForConfirmPassword}
+                placeholder='Confirm Password'
+                className="registrationInput"
+                ref={confirmPassword}
+                onInput={e => e.target.setCustomValidity('')}
+                required
+              />
+              {
+                typeForConfirmPassword === 'password' ?
+                  <FaEye className='eyeicon' onClick={e => setTypeForConfirmPassword('text')} /> :
+                  <FaEyeSlash className='eyeicon' onClick={e => setTypeForConfirmPassword('password')} />
+              }
+            </label>
             {
               error &&
               <span className="error">{error}</span>

@@ -16,6 +16,8 @@ import SearchResult from './pages/searchResult/SearchResult'
 import Navbar from './components/navbar/Navbar'
 import Messenger from './pages/messenger/Messenger'
 import ScrollToTop from './components/scrollToTop/ScrollToTop'
+import Settings from './pages/settings/Settings'
+import PageNotFound from './pages/pageNotFound/PageNotFound'
 
 export default function App() {
   const { user } = useContext(AuthContext)
@@ -24,7 +26,7 @@ export default function App() {
   return (<div>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-      <ScrollToTop />
+        <ScrollToTop />
         <Routes>
           <Route path='/signup' element={<Registration />} />
           <Route path='/login' element={<Login />} />
@@ -36,12 +38,17 @@ export default function App() {
             </>
           }>
             <Route path='/' element={user ? <Home /> : <Login />} />
-            <Route path='/profile/:id' element={<Profile />} />
-            <Route path='/profile/:id/photos' element={<Photos />} />
-            <Route path='/profile/:id/friends' element={<AllFriends />} />
-            <Route path='/search' element={<SearchResult />} />
-            <Route path='/messages/:id' element={<Messenger />} />
+            <Route path='/profile/:id' element={user ? <Profile /> : <Login />} />
+            <Route path='/profile/:id/photos' element={user ? <Photos /> : <Login />} />
+            <Route path='/profile/:id/friends' element={user ? <AllFriends /> : <Login />} />
+            <Route path='/search' element={user ? <SearchResult /> : <Login />} />
+            <Route path='/messages/:id' element={user ? <Messenger /> : <Login />} />
+            <Route path='/settings' element={user ? <Settings /> : <Login />} />
           </Route>
+          <Route
+            path="*"
+            element={<PageNotFound />}
+          />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

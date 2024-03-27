@@ -12,12 +12,24 @@ import { BsPersonCircle } from 'react-icons/bs'
 import { FaFacebookMessenger, FaUserFriends } from 'react-icons/fa'
 import { GrGallery } from 'react-icons/gr'
 import { RiLogoutBoxRLine } from 'react-icons/ri'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 export default function Navbar() {
+    const apiBaseURL = process.env.REACT_APP_API_BASE_URL
+
     const { user, logout } = useContext(AuthContext)
     const [enableHamburger, setEnableHamburger] = useState(true)
     const [enableSearchInput, setEnableSearchInput] = useState(false)
     const navigate = useNavigate()
+
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
+        queryFn: async () => {
+            const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
+            return res.data
+        }
+    })
 
     const handleLogout = async () => {
         if (window.confirm('Do you want to Logout ?')) {
@@ -53,9 +65,9 @@ export default function Navbar() {
                 </Link>
                 <Link to={`/profile/${user?._id}`} className='profile-pic'>
                     {
-                        user?.profilePic ?
+                        currentUser?.profilePic ?
                             <img
-                                src={user?.profilePic}
+                                src={currentUser?.profilePic}
                                 alt=""
                             /> :
                             <IoPersonSharp className='avatar' />

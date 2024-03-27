@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Login.scss'
 import { AuthContext } from '../../context/authContext'
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
     const email = useRef()
@@ -9,6 +10,7 @@ export default function Login() {
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const { login } = useContext(AuthContext)
+    const [type, setType] = useState('password');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,13 +43,22 @@ export default function Login() {
                             ref={email}
                             required
                         />
-                        <input
-                            type="password"
-                            placeholder='Password'
-                            className="loginInput"
-                            ref={password}
-                            required
-                        />
+                        <label className='passwordInput'>
+                            <input
+                                type={type}
+                                placeholder='Password'
+                                className="loginInput"
+                                ref={password}
+                                required
+                            />
+
+                            {
+                                type === 'password' ?
+                                    <FaEye className='eyeicon' onClick={e => setType('text')} /> :
+                                    <FaEyeSlash className='eyeicon' onClick={e => setType('password')} />
+                            }
+
+                        </label>
                         {
                             error &&
                             <span className="error">{error}</span>

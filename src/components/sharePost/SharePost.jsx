@@ -5,15 +5,24 @@ import { storage } from '../../firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import axios from 'axios';
 import { AuthContext } from '../../context/authContext';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IoPersonSharp } from 'react-icons/io5';
 
 export default function SharePost() {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
+
     const [file, setFile] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const postDesc = useRef()
     const { user } = useContext(AuthContext)
+
+    const { data: currentUser } = useQuery({
+        queryKey: ["user", user._id],
+        queryFn: async () => {
+            const res = await axios.get(`${apiBaseURL}/user/${user._id}`)
+            return res.data
+        }
+    })
 
     const queryClient = useQueryClient()
     const mutation = useMutation({
@@ -72,9 +81,9 @@ export default function SharePost() {
         <form className='share-post-container'>
             <div className="share-post-top">
                 {
-                    user.profilePic ?
+                    currentUser?.profilePic ?
                         <img
-                            src={user.profilePic}
+                            src={currentUser?.profilePic}
                             alt=""
                         /> :
                         <IoPersonSharp className='avatar' />

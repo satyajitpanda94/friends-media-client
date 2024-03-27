@@ -24,14 +24,14 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
     const [userInputs, setUserInputs] = useState({
         profilePic: null,
         coverPic: null,
-        name: currentUser.name,
-        school: currentUser.school,
-        college: currentUser.college,
-        worksAt: currentUser.worksAt,
-        currentAddress: currentUser.currentAddress,
-        permanentAddress: currentUser.permanentAddress,
-        gender: currentUser.gender,
-        dateOfBirth: currentUser.dateOfBirth,
+        name: currentUser?.name,
+        school: currentUser?.school,
+        college: currentUser?.college,
+        worksAt: currentUser?.worksAt,
+        currentAddress: currentUser?.currentAddress,
+        permanentAddress: currentUser?.permanentAddress,
+        gender: currentUser?.gender,
+        dateOfBirth: currentUser?.dateOfBirth,
     })
 
     const profilePicProgress = useRef()
@@ -123,8 +123,8 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                             src={
                                 userInputs.profilePic
                                     ? userInputs.profilePic
-                                    : currentUser.profilePic
-                                        ? currentUser.profilePic
+                                    : currentUser?.profilePic
+                                        ? currentUser?.profilePic
                                         : '/avatar.png'
                             }
                             alt="" />
@@ -150,8 +150,8 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                             src={
                                 userInputs.coverPic
                                     ? userInputs.coverPic
-                                    : currentUser.coverPic
-                                        ? currentUser.coverPic
+                                    : currentUser?.coverPic
+                                        ? currentUser?.coverPic
                                         : '/coverpic.jpg'
                             }
                             alt="" />
@@ -205,15 +205,15 @@ export default function EditProfile({ openEditProfile, setOpenEditProfile }) {
                 <h3>Gender</h3>
                 <div className="radio-buttons">
                     <label htmlFor='male' className='radio-button'>
-                        <input type="radio" id='male' name='gender' value="male" checked={userInputs.gender === 'male'} />
+                        <input type="radio" id='male' name='gender' value="male" checked={userInputs.gender === 'male'} onChange={e=>{}} />
                         Male
                     </label>
                     <label htmlFor='female' className='radio-button'>
-                        <input type="radio" id='female' name='gender' value="female" checked={userInputs.gender === 'female'} />
+                        <input type="radio" id='female' name='gender' value="female" checked={userInputs.gender === 'female'} onChange={e=>{}} />
                         Female
                     </label>
                     <label htmlFor='other' className='radio-button'>
-                        <input type="radio" id='other' name='gender' value="other" checked={userInputs.gender === 'other'} />
+                        <input type="radio" id='other' name='gender' value="other" checked={userInputs.gender === 'other'} onChange={e=>{}} />
                         Other
                     </label>
                 </div>
