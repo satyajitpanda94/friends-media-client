@@ -25,9 +25,6 @@ export default function SharePost() {
         }
     })
 
-    // console.log(file)
-    // console.log(URL.createObjectURL(file))
-
     const queryClient = useQueryClient()
     const mutation = useMutation({
         mutationFn: async (newPost) => {
@@ -115,7 +112,12 @@ export default function SharePost() {
                                 /> :
                                 <img src={URL.createObjectURL(file)} alt="" className="share-img" />
                         }
-                        <div className='delete-img' onClick={(e) => setFile(null)}>
+                        <div
+                            className='delete-img'
+                            onClick={(e) => {
+                                setFile(null)
+                            }}
+                        >
                             Delete
                         </div>
                     </div>
@@ -128,7 +130,10 @@ export default function SharePost() {
                         type="file"
                         id='file'
                         style={{ display: 'none' }}
-                        onChange={(e) => setFile(e.target.files[0])}
+                        value={""}
+                        onChange={(e) => {
+                            setFile(e.target.files[0])
+                        }}
                     />
                     <FaPhotoVideo className='photo-video-share-icon' />
                     Photo/Video
