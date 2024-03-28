@@ -7,6 +7,7 @@ import axios from 'axios';
 import { AuthContext } from '../../context/authContext';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IoPersonSharp } from 'react-icons/io5';
+import ReactPlayer from 'react-player'
 
 export default function SharePost() {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -23,6 +24,9 @@ export default function SharePost() {
             return res.data
         }
     })
+
+    // console.log(file)
+    // console.log(URL.createObjectURL(file))
 
     const queryClient = useQueryClient()
     const mutation = useMutation({
@@ -43,6 +47,7 @@ export default function SharePost() {
             description: postDesc.current.value,
             userId: user._id,
             img: '',
+            video: '',
         }
 
         try {
@@ -56,7 +61,10 @@ export default function SharePost() {
                 await uploadTask.then(
                     async () => {
                         await getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                            newPost.img = downloadURL
+                            if (file.type.includes('video'))
+                                newPost.video = downloadURL
+                            else
+                                newPost.img = downloadURL
                             setFile(null)
                         });
                     }
@@ -69,7 +77,7 @@ export default function SharePost() {
             console.log(err.code)
         }
 
-        if (newPost.img || newPost.description) {
+        if (newPost.img || newPost.video || newPost.description) {
             mutation.mutate(newPost)
             setIsLoading(false)
             postDesc.current.value = ''
@@ -96,8 +104,17 @@ export default function SharePost() {
             </div>
             {
                 file && (
-                    <div className="share-img-container">
-                        <img src={URL.createObjectURL(file)} alt="" className="share-img" />
+                    <div className="share-post-container">
+                        {
+                            file.type.includes('video') ?
+                                <ReactPlayer
+                                    url={URL.createObjectURL(file)}
+                                    controls={true}
+                                    playing={false}
+                                    className="share-video"
+                                /> :
+                                <img src={URL.createObjectURL(file)} alt="" className="share-img" />
+                        }
                         <div className='delete-img' onClick={(e) => setFile(null)}>
                             Delete
                         </div>

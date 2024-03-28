@@ -10,6 +10,7 @@ import { MdMoreHoriz } from "react-icons/md";
 import { IoPersonSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import ReactPlayer from 'react-player';
 
 export default function Post({ post }) {
     const apiBaseURL = process.env.REACT_APP_API_BASE_URL
@@ -102,6 +103,17 @@ export default function Post({ post }) {
                     (<Link to={`/photo/${post._id}`}>
                         <img src={post.img} alt="" />
                     </Link>)
+                }
+                {
+                    post.video &&
+                    (
+                        <ReactPlayer
+                            url={post.video}
+                            controls={true}
+                            playing={false}
+                            className="react-video"
+                        />
+                    )
                 }
             </div>
             <div className="post-buttom">

@@ -40,9 +40,14 @@
         }
     }
 
-    .share-img-container {
+    .share-post-container {
         width: 100%;
         position: relative;
+
+        .share-video{
+            width: 100% !important;
+            height: auto !important;
+        }
 
         .share-img {
             width: 100%;
@@ -55,8 +60,8 @@
             font-weight: 500;
             padding: 4px 10px;
             position: absolute;
-            right: 5px;
-            top: 5px;
+            right: 10px;
+            top: 10px;
             cursor: pointer;
         }
     }
