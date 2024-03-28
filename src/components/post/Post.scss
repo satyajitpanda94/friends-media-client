@@ -57,9 +57,14 @@
         flex-direction: column;
         gap: 10px;
 
-        .description,
-        img {
+        .description{
             width: 100%;
+        }
+
+        img{
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
         }
 
         .react-video {
