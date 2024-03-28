@@ -85,12 +85,6 @@ export default function Post({ post }) {
                             onClick={() => setMoreOpen(!moreOpen)}
                         />
                     }
-                    {
-                        moreOpen &&
-                        <div className="more-options">
-                            <span onClick={handleDeletePost}>Delete Post</span>
-                        </div>
-                    }
                 </div>
             </div>
             <div className="post-middle">
@@ -130,6 +124,12 @@ export default function Post({ post }) {
                 commentsOpen &&
                 <div className='comments-wrapper'>
                     <Comments postId={post._id} />
+                </div>
+            }
+            {
+                moreOpen &&
+                <div className="more-options">
+                    <span onClick={handleDeletePost}>Delete Post</span>
                 </div>
             }
         </div>
