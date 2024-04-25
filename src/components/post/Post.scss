@@ -63,7 +63,6 @@
 
         img{
             width: 100%;
-            aspect-ratio: 1/1;
             object-fit: cover;
         }
 
@@ -136,6 +135,45 @@
             &:hover {
                 color: blue;
                 background-color: rgb(239, 239, 239);
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width:540px) {
+    .post-container{
+        .post-middle{
+            img{
+                max-height: 550px;
+            }
+        }
+    }
+}
+@media screen and (min-width:640px) {
+    .post-container{
+        .post-middle{
+            img{
+                max-height: 650px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width:768px) {
+    .post-container{
+        .post-middle{
+            img{
+                max-height: 500px;
+            }
+        }
+    }
+}
+@media screen and (min-width:1024px) {
+    .post-container{
+        .post-middle{
+            img{
+                max-height: 660px;
             }
         }
     }
